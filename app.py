@@ -6,14 +6,10 @@ Run: python app.py
 """
 
 import os
-import torch
 from datetime import datetime
 
-import gradio as gr
 import spaces
-from transformers import pipeline
-from huggingface_hub import InferenceClient
-from diffusers import DiffusionPipeline
+import gradio as gr
 
 # ---------------------------------------------------------------------------
 # CONFIG
@@ -44,17 +40,10 @@ FALLBACK_PROMPTS = {
 # ---------------------------------------------------------------------------
 # LOAD MODELS ONCE AT STARTUP
 # ---------------------------------------------------------------------------
-print("Loading local genre classifier...")
-classifier = pipeline("audio-classification", model=GENRE_MODEL_ID)
-
-print("Loading local image generator (tiny-sd)...")
-local_image_pipe = DiffusionPipeline.from_pretrained(
-    LOCAL_IMAGE_MODEL_ID, torch_dtype=torch.float32
-)
-# NOTE: do NOT call .to("cuda") here. Under ZeroGPU, CUDA can only be
-# touched inside a function decorated with @spaces.GPU (see generate_image_local).
 
 def get_client(hf_token: gr.OAuthToken = None):
+    from huggingface_hub import InferenceClient
+
     token = getattr(hf_token, "token", None)
 
     if not token:
@@ -72,6 +61,11 @@ def get_client(hf_token: gr.OAuthToken = None):
 def classify_audio(audio_file):
     if audio_file is None:
         return "unknown", 0.0
+
+    from transformers import pipeline
+    print("Loading local genre classifier...")
+    classifier = pipeline("audio-classification", model=GENRE_MODEL_ID)
+
     result = classifier(audio_file)
     genre = result[0]["label"]
     confidence = result[0]["score"]
@@ -114,6 +108,13 @@ def create_visual_prompt(genre, hf_token):
 # ---------------------------------------------------------------------------
 @spaces.GPU
 def generate_image_local(prompt):
+    import torch
+    from diffusers import DiffusionPipeline
+
+    print("Loading local image generator (tiny-sd)...")
+    local_image_pipe = DiffusionPipeline.from_pretrained(
+        LOCAL_IMAGE_MODEL_ID, torch_dtype=torch.float32
+    )
     local_image_pipe.to("cuda" if torch.cuda.is_available() else "cpu")
     image = local_image_pipe(prompt, num_inference_steps=15).images[0]
     return image
