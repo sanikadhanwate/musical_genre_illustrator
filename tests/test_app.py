@@ -15,7 +15,7 @@ if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 ########################### Failure Setup Done #######################################
 
-from app import classify_audio, generate_image_local, FALLBACK_PROMPTS
+from model_inference import classify_audio, generate_image_local, FALLBACK_PROMPTS
 
 
 SAMPLE_AUDIO = os.path.join(os.path.dirname(__file__), "..", "sample.wav")
