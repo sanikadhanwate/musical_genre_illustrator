@@ -8,6 +8,8 @@ Run: python app.py
 import spaces
 import gradio as gr
 
+from model_inference import analyze_music
+
 # ---------------------------------------------------------------------------
 # UI
 # ---------------------------------------------------------------------------
