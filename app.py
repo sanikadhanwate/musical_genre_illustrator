@@ -280,6 +280,7 @@ def analyze_music(
 
     return genre, f"{confidence:.2f}", prompt_source, visual_prompt, image, saved_path
 
+from model_inference import analyze_music
 
 # ---------------------------------------------------------------------------
 # UI
