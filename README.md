@@ -647,26 +647,6 @@ The `.github/workflows/` directory contains a GitHub Actions workflow that autom
 
 ---
 
-## 📚 References
-
-1. Wolf, T., Debut, L., Sanh, V., Chaumond, J., Delangue, C., Moi, A., ... Rush, A. M. (2020). Transformers: State-of-the-art natural language processing. In *Proceedings of EMNLP 2020: System Demonstrations* (pp. 38–45). https://doi.org/10.18653/v1/2020.emnlp-demos.6
-
-2. von Platen, P., Patil, S., Lozhkov, A., Cuenca, P., Lambert, N., Rasul, K., Davaadorj, M., & Wolf, T. (2022). *Diffusers: State-of-the-art diffusion models* [Software]. Hugging Face. https://github.com/huggingface/diffusers
-
-3. Abid, A., Abdalla, A., Abdulkadir, A., Khan, F. S., Alfozan, A., & Zou, J. (2019). Gradio: Hassle-free sharing and testing of ML models in the wild. *arXiv preprint arXiv:1906.02569*. https://arxiv.org/abs/1906.02569
-
-4. AI@Meta. (2024). *Llama 3 model card*. Hugging Face. https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct
-
-5. Qwen Team. (2024). *Qwen2.5 technical report*. Hugging Face. https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct
-
-6. Fowler, M. (2014). *CircuitBreaker*. martinfowler.com. https://martinfowler.com/bliki/CircuitBreaker.html
-
-7. Nygard, M. T. (2018). *Release it! Design and deploy production-ready software* (2nd ed.). Pragmatic Bookshelf.
-
-8. Hugging Face. (2024). *ZeroGPU: Dynamic GPU allocation for Spaces*. https://huggingface.co/docs/hub/spaces-zerogpu
-
----
-
 ## 🤝 Acknowledgments
 
 - **[Hugging Face](https://huggingface.co)** — model hub, Inference API, Spaces platform, and ZeroGPU infrastructure
