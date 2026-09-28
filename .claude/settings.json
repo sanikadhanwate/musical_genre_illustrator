@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c \"import torch; print\\(torch.__version__\\)\")",
+      "Bash(python -m pip install -q -U torch)",
+      "Bash(python -m pip index versions torch)",
+      "Bash(python -m pip install -q \"transformers<4.50\")",
+      "Bash(python -c \"import transformers; print\\(transformers.__version__\\)\")",
+      "Bash(python -m pytest test_app.py -v -k \"not returns_genre_and_confidence and not generate_image_local_returns_image\")",
+      "Bash(python -m pip install -q -U huggingface_hub transformers diffusers gradio)",
+      "Bash(python -c \"import transformers.utils.import_utils as iu; import inspect; print\\(inspect.getsource\\(iu.check_torch_load_is_safe\\)\\)\")"
+    ]
+  }
+}
