@@ -57,22 +57,13 @@ FALLBACK_PROMPTS = {
 print("Loading local genre classifier...")
 classifier = pipeline("audio-classification", model=GENRE_MODEL_ID)
 
-print("Loading local image generator (tiny-sd)...")
-local_image_pipe = DiffusionPipeline.from_pretrained(
-    LOCAL_IMAGE_MODEL_ID, torch_dtype=torch.float32
-)
+local_image_pipe = None
 # NOTE: do NOT call .to("cuda") here. Under ZeroGPU, CUDA can only be
 # touched inside a function decorated with @spaces.GPU (see generate_image_local).
 
 def get_client(hf_token: gr.OAuthToken = None):
-    token = getattr(hf_token, "token", None)
-
-    if not token:
-        print("Login required.")
-        return None
-
-    client = InferenceClient(token=token, timeout=REMOTE_TIMEOUT_SECONDS)
-    print("API model ready.")
+    client = InferenceClient(timeout=REMOTE_TIMEOUT_SECONDS)
+    print("API model ready using VM Hugging Face authentication.")
     return client
 
 
@@ -232,6 +223,14 @@ def create_visual_prompt(genre, hf_token, simulate_remote_failure=False):
 # ---------------------------------------------------------------------------
 @spaces.GPU
 def generate_image_local(prompt):
+    global local_image_pipe
+
+    if local_image_pipe is None:
+        print("Loading local image generator (tiny-sd)...")
+        local_image_pipe = DiffusionPipeline.from_pretrained(
+            LOCAL_IMAGE_MODEL_ID, torch_dtype=torch.float32
+        )
+
     local_image_pipe.to("cuda" if torch.cuda.is_available() else "cpu")
     image = local_image_pipe(prompt, num_inference_steps=15).images[0]
     return image
